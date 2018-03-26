@@ -1,0 +1,89 @@
+// Import namespaces
+sys.import(root, sys)
+sys.import(root, adv)
+
+// Erstellt Default-Event fuer ein Item/BagItem
+function DefaultPickup(item, bagitem)
+{
+	if (not item or not bagitem)
+	{
+		println("Error: DefaultPickup called with null argument!!!")
+		return()
+	}
+
+	item.related_bagitem = bagitem
+
+	local event_fn = function(obj)
+	{
+		WalkTo(obj)
+		obj.room.RemObject(obj)
+		Sfx.get.Play()
+		if (obj.related_bagitem) ego.AddBagItem(obj.related_bagitem)
+	}
+
+	adv.AddEvent("scumm", "pickup", item, event_fn)
+}
+
+// Event wildcard identifier
+ANY = "[any]"
+
+// Create Actor with some default features
+function CreateActor()
+{
+	local actor = Actor();
+
+	// Synchronized talk
+	actor.STalk = function(text)
+	{
+		$Talk(text)
+		while ($IsTalking()) yield()
+	}
+
+	// Synchronized walking to coordinates
+	actor.SWalkTo = function(x, y) 
+	{
+		if (not $WalkTo(x, y)) return()
+
+		while ($IsWalking()) yield()
+		return(1)
+	}
+
+	// Walk to object
+	actor.WalkToObj = function(item)
+	{
+		local dest_x = item.walkto_x, dest_y = item.walkto_y
+		if (not (dest_x and dest_y)) return()
+		$WalkTo(dest_x, dest_y)
+	}
+
+	// Synchronized walk to object
+	actor.SWalkToObj = function(item)
+	{
+		local dest_x   = item.walkto_x
+		local dest_y   = item.walkto_y
+		local dest_dir = item.walkto_dir
+
+		if (not (dest_x and dest_y)) return()
+		$SWalkTo(dest_x, dest_y)
+		if (dest_dir) $dir = dest_dir
+	}
+
+	actor.EnterRoom = function(newroom, x, y)
+	{
+		if ($room) $room.RemObject(self) // remove actor from room
+		if (not newroom) return()
+
+		newroom.AddObject(self)
+
+		if (x and y) // set new position if any
+		{
+			$x = x
+			$y = y
+		}
+	}
+
+	return(actor)
+}
+
+
+

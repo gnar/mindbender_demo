@@ -1,0 +1,55 @@
+// Bag items, which can't be picked up in a specific room
+
+script: "script/inventory.zak"
+
+// Zak gets this if he combines Pot with Waxfruits, both from the kitchen
+bagitem Waxpot
+{
+	sprite: "bag/s_wachstopf.png"
+	name: "Topf mit Wachsfrüchten"
+
+	lookat_text = "Ein Topf mit Wachsfrüchten."
+}
+
+bagitem Glued_Glasses
+{
+	sprite: "bag/s_brille_leim.png"
+	name: "leimbeschmierte Brille"
+
+	lookat_text = "Eine mit Leim beschmierte Brille."
+}
+
+bagitem Funglasses
+{
+	sprite: "bag/s_nasenbrille.png"
+	name: "Scherzbrille"
+
+	lookat_text = "Eine Brille mit angeklebter Scherznase."
+}
+
+bagitem Funglasseshat
+{
+	sprite: "bag/s_nasenbrillenhut.png"
+	name: "Scherzbrillenhut"
+
+	lookat_text = "Hmm, irgendetwas fehlt noch."
+}
+
+bagitem Costume
+{
+	sprite: "bag/s_kostume.png"
+	name: "Kostüm"
+
+	lookat_text = "Mein Koch-look-a-like-Kostüm."
+	usable = true
+
+	rdefault = "use"
+}
+
+bagitem Fingerprint
+{
+	sprite: "bag/s_fingerprint.png"
+	name: "Fingerabdruck"
+
+	lookat_text = "Ein aus hartem Sekundenkleber hergestellter Fingerabdruck."
+}

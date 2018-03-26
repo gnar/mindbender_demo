@@ -1,0 +1,24 @@
+Foyer.Plant.ThreadFunc = function()
+{
+
+	while (true)
+	{
+		if (ego.room == Foyer)
+		{
+			//println(ego.room," - ",Foyer)
+//			Foyer.Plant.sprite = null
+			Foyer.Plant.sprite =  Sprite("foyer/plant.sprite")
+			Sfx.slurp.Play()		
+			Delay(6000)
+		}
+		else
+		{
+			//println(ego.room," - ",Foyer)
+			Delay(6000)
+		}
+		
+	} //while(1)
+}
+
+
+Foyer.Plant.thread = sys.startthread(Foyer.Plant.ThreadFunc, Foyer.Plant)

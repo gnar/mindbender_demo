@@ -1,0 +1,15 @@
+
+ego = CreateActor()
+ego.font = Font("std.font")
+ego.walk_sprite = Sprite("zak/walk.sprite")
+ego.still_sprite = Sprite("zak/still.sprite")
+ego.talk_sprite = Sprite("zak/talk.sprite")
+ego.name = "Zak"
+ego.speed = 155
+ego.height = 200
+ego.width = 142
+
+
+ego.wearcostume = false
+
+

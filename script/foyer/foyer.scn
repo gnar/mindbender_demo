@@ -1,0 +1,148 @@
+script: "script/foyer/foyer.zak"
+
+room Foyer
+{
+	tilt:		40
+	path:		"foyer/foyer.polygon"
+	scaling:	perspective -100 375
+
+	mainplane {
+		size:	680 380
+		image:	"foyer/foyer_background.png"
+		
+		
+		item 
+		{
+			pos:		0 252 3
+			sprite:		"foyer/cactus.png"
+		}
+		
+		item Plant
+		{
+			pos:		573 380 3
+			name:		"Pflanze"
+			sprite:	"foyer/plant.sprite"
+			hotspot:	-43 -100 77 99
+			walk: 	491 364 270
+			
+			lookat_text = "Ja klar - auf die  Schlagzeile: 'Reporter von außerirdischer Pflanze verspeist', kann ich verzichten."
+		
+		}
+		
+		item // Tisch haupt
+		{
+			pos:		202 255 1
+			sprite:		"foyer/tisch.png" translate 0 66
+		}
+		
+		item // Table front
+		{
+			pos:		220 290 1
+			sprite:		"foyer/tisch_front.png" translate 0 95
+		}
+		
+		item // Mauer oben links
+		{
+			pos:		0 107 1
+			sprite:		"foyer/upstairswall.png" translate 0 107
+		}
+		
+		item Keyholder
+		{
+			pos:		198 94 2
+			name:		"Schlüsselbrett"
+			hotspot:	0 0 28 92
+			walk:		239 240 0
+		
+			pickup_text = "Nein, das würde sicher jemand bemerken!"
+		}
+		
+		item Bowl
+		{
+			pos:		221 189 2
+			name:		"Scherzartikel im Glas"
+			hotspot:	0 0 30 31
+			walk:		210 300 90
+		
+			lookat_text = "Hmm, ein Glas mit Scherznasen."
+			rdefault = "pickup"
+		
+		}
+		
+		item Guestbook
+		{
+			pos:		279 201 2
+			name:		"Gästebuch"
+			hotspot:	0 0 50 11
+			walk:		275 300 90
+		}
+		
+		item Bell
+		{
+			pos:		338 195 2
+			name: 		"Glocke"
+			hotspot:	0 0 8 21
+			walk:		305 300 90
+		
+			lookat_text = "Die Glocke, um den Portier zu rufen."
+		
+			rdefault = "push"
+		}
+		
+		item Stairs
+		{
+			pos:		18 19 0
+			name:		"Treppe"
+			hotspot:	0 0 80 255
+			walk:		55 280 90
+		
+			//lookat_text = "Diese Treppe führt nach oben zu den Zimmern."
+		}
+		
+		item Downstairs
+		{
+			pos:		101 217 0
+			name:		"Keller"
+			hotspot:	0 0 67 53
+			walk:		135 278 90
+		
+			//lookat_text = "Da geht's runter in den Keller."
+		}
+		
+		item Swingdoor
+		{
+			pos:		400 75 1
+			name:		"Doppeltür"
+			hotspot:	48 3 96 154
+			walk:		490 240 90
+		
+			lookat_text = "Da geht es in die Lounge."
+			open = false
+		
+			rdefault = "open"
+			rdefault_sw = "close"
+		
+		}
+		
+		item Steeldoor
+		{
+			pos:		598 103 0
+			name:		"Küchentür"
+			hotspot:	0 0 43 168
+			walk:		590 280 180
+		
+			lookat_text = "Da geht es in die Küche."
+			open = false
+		
+			rdefault = "open"
+			rdefault_sw = "close"
+		}
+	}
+}
+
+bagitem Nose
+{
+	sprite: 	"bag/s_nase.png"
+	name:		"Pappnase"
+}
+

@@ -1,0 +1,170 @@
+
+event global draw:
+{
+	if (Talker.IsActive()) {
+		Talker.Draw()
+	} else if (IsInteractive()) {
+		Scummbar.Draw()
+	}
+}
+
+event global mousemove: ANY:x, ANY:y, ANY:room_x, ANY:room_y
+{
+	if (Talker.IsActive()) {
+		Talker.Move(x, y)
+	} else if (IsInteractive()) {
+		Scummbar.Move(x, y, room_x, room_y)
+	}
+}
+
+event global mousedown: ANY:x, ANY:y, ANY:room_x, ANY:room_y, ANY:button
+{
+	if (Talker.IsActive()) {
+		if (button == 0) Talker.Click(x, y)
+	} else if (IsInteractive()) {
+		switch(button)
+		{
+			case(0) Scummbar.Click(x, y, room_x, room_y)
+			case(2) {
+				Scummbar.RDefault(x, y, room_x, room_y)
+				Scummbar.Abort()
+				}
+			else    println("Cursor: Screen(", x, "|", y, ") Room(", room_x, "|", room_y, ")") 
+		}
+	}
+}
+
+event global keydown: ANY:key, ANY:char
+{
+	local esc=false;
+
+	switch (key)
+	{
+		//case ("Left")  Camera.SetTarget(0, 0)
+		//case ("Right") Camera.SetTarget(640,0)
+
+		//case ("2") ego.wearcostume = true
+		//case ("3") Basement.Scanner.locked=false
+
+		case ("Escape")  esc=true
+
+		case ("ESC")  esc=true
+
+		else           println("Unbound key pressed: ", key)
+	}
+
+	if (esc) {
+			if (ego.room==Intro or ego.room==Intro1 or ego.room==Intro2)
+			{
+
+				Resume()
+
+				barjazz.Play()
+
+				Intro.start_thread.kill()
+				Intro.start_thread = null
+
+				ego.walk_sprite = Sprite("zak/walk.sprite")
+				ego.still_sprite = Sprite("zak/still.sprite")
+				ego.talk_sprite = Sprite("zak/talk.sprite")
+
+				ego.EnterRoom(Foyer, 351, 365)
+				ego.dir=270
+
+				Speak.s11.Play()
+				ego.Talk("Ok, jetzt bist du dran...")
+			}
+
+	}
+}
+
+// Default reactions to SCUMM events
+
+event scumm walkto: ANY:x, ANY:y
+{
+	WalkTo(x, y)
+}
+
+event scumm walkto: ANY:item
+{
+	WalkTo(item)
+}
+
+event scumm lookat: ANY:item
+{
+	WalkTo(item)
+	local text = item.lookat_text
+	if (not text) text = "Ich sehe nichts Besonderes."
+	Talk(text)
+}
+
+event scumm open: ANY:item
+{
+	WalkTo(item)
+	local text = item.open_text
+	if (not text) text = "Das läßt sich nicht öffnen."
+	Talk(text)
+}
+
+event scumm close: ANY:item
+{
+	WalkTo(item)
+	local text = item.close_text
+	if (not text) text = "Das läßt sich nicht schließen."
+	Talk(text)
+}
+
+event scumm use: ANY:item1, ANY:item2
+{
+	WalkTo(item2)
+	local text
+	switch (Random(4))
+	{
+		case(0) text = "Das klappt so nicht."
+		case(1) text = "Das geht nicht."
+		case(2) text = "Wie soll das gehen?"
+		case(3) text = "Ich wüsste nicht wie!"
+	}
+	Talk(text)
+}
+
+event scumm talkto: ANY:item
+{
+	WalkTo(item)
+	local text = item.talkto_text
+	if (not text) text = "Ich käme mir komisch vor."
+	Talk(text)
+}
+
+event scumm giveto: ANY:item, ANY:receiver
+{
+	WalkTo(receiver)
+	local text = item.giveto_text
+	if (not text) text = "Das will ich nicht."
+	Talk(text)
+}
+
+event scumm pickup: ANY:item
+{
+	WalkTo(item)
+	local text = item.pickup_text
+	if (not text) text = "Das kann ich nicht nehmen."
+	Talk(text)
+}
+
+event scumm push: ANY:item
+{
+	WalkTo(item)
+	local text = item.push_text
+	if (not text) text = "Das kann ich nicht bewegen."
+	Talk(text)
+}
+
+event scumm pull: ANY:item
+{
+	WalkTo(item)
+	local text = item.pull_text
+	if (not text) text = "Das kann ich nicht bewegen."
+	Talk(text)
+}
+

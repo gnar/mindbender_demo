@@ -1,0 +1,34 @@
+
+local tmp = CreateActor()
+tmp.height = 0
+tmp.width = 0
+tmp.x = 200
+tmp.y = 100
+Photo.invisible_ego = tmp
+Photo.AddObject(tmp)
+
+function LookAtPhoto()
+{
+	Camera.SetTarget(Photo, 0, 0)
+	Delay(1000)
+	Photo.invisible_ego.font = ego.font
+	Photo.invisible_ego.Talk("Das ist wohl der Koch.")
+}
+
+event scumm walkto: Photo.Back
+{
+	Photo.invisible_ego.Stop()
+	Camera.SetTarget(ego)
+}
+
+event scumm lookat: Photo.Back { }
+event scumm open: Photo.Back { }
+event scumm close: Photo.Back { }
+event scumm use: ANY, Photo.Back { }
+event scumm use: Photo.Back, ANY { } 
+event scumm talkto: Photo.Back { }
+event scumm giveto: ANY, Photo.Back { }
+event scumm pickup: Photo.Back { }
+event scumm push: Photo.Back { }
+event scumm pull: Photo.Back { }
+

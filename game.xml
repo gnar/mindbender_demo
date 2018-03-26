@@ -1,0 +1,8 @@
+<game scene-file="game.scn">
+	<title>Zak McKracken and the alien Rockstar</title>
+	<video width=640 height=480 fullscreen=0/>
+
+	<!-- <resource-path path="res"/> -->
+	<source path="resources.data"/>
+</game>
+

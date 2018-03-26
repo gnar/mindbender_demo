@@ -1,0 +1,281 @@
+script: "script/kitchen/kitchen.zak"
+
+room Kitchen
+{
+	scaling: 	perspective 50 300
+	tilt:  		30
+	path: 		"kueche/kueche.polygon"
+
+	mainplane {
+	    size:   640 380
+	    image: 	"kueche/kueche_background.png"
+
+        item Cockroach
+        {
+            pos:		435 333 3
+            name:		"Kakerlake"
+            sprite:		"kueche/kakerlake.png"
+            hotspot:	35 22 52 18
+            walk:		480 345 270
+
+            lookat_text = "Pfui, eine Mars-Kakerlake."
+            pickup_text = "Ihh, sowas kommt nicht in meine Tasche."
+            open_text = "Urgs, das will ich nicht."
+        }
+
+        item Hearth
+        {
+            pos:		150 205 1
+            name:		"Herd"
+            hotspot:	0 0 50 100
+            walk:		225 315 0
+
+            lookat_text = "Ein Elektroherd."
+            open_text = "Nein, den lasse ich lieber zu."
+
+            usable = true
+            rdefault = "use"
+        }
+
+        item Dishes
+        {
+            pos:		1 200 0
+            name:		"Geschirrstapel"
+            hotspot:	0 0 105 63
+            walk:		174 371 0
+
+            lookat_text = "Lauter dreckiges Geschirr."
+            pickup_text = "Pfui, das fasse ich nicht an!"
+        }
+
+        item Bild
+        {
+            pos:		73 74 0
+            name:		"Portrait"
+            hotspot:	0 0 45 80
+            walk:		225 315 0
+
+            lookat_text = "Hmm, ein Bild von Arnie und darunter ist wohl ein Photo vom Koch."
+
+        }
+
+
+        item Photo
+        {
+            pos:		94 113 1
+            name:		"Photo"
+            hotspot:	0 0 30 42
+            walk:		225 315 0
+
+        }
+
+        item Garbage
+        {
+            pos:		82 302 0
+            name:		"M�llsack"
+            hotspot:	0 0 54 52
+            walk:		183 354 0
+
+            lookat_text = "Ich w�hle nicht in anderer Leute M�ll."
+            open_text = "Allein bei dem Gedanken wird mir schlecht."
+            pickup_text = "Ih, das will ich nicht in meinem Inventar."
+        }
+
+        item Canteen
+        {
+            pos:		10 78 0
+            name: 		"Kochutensilien"
+            hotspot:	0 0 40 80
+            walk:		183 354 0
+
+            lookat_text = "Lauter nutzlose Kochutensilien."
+            pickup_text = "Nein, da ist nichts n�tzliches dabei."
+        }
+
+        item Freezer
+        {
+            pos:		572 202 0
+            name:		"Kuehlschrank"
+            hotspot:	0 0 106 126
+            walk:		525 345 270
+
+            lookat_text = "Ein alter K�hlschrank."
+
+            rdefault = "open"
+        }
+
+        item Cabinet
+        {
+            pos:		165 72 1
+            sprite: 	"kueche/schrank_zu.png"
+            name:		"Schrank"
+            hotspot:	27 7 107 175
+            walk:		240 265 90
+
+            open = null
+
+            lookat_text = "Das ist ein normaler K�chenschrank."
+
+            rdefault = "open"
+            rdefault_sw = "close"
+        }
+
+        item Jacket
+        {
+            pos:		207 110 0
+            name: 		"Jacke"
+            walk:		240 265 90
+            hotspot:	0 0 43 88
+            sprite:		"kueche/jacke.png"
+
+            lookat_text = "Das ist der Kittel des Kochs."
+            rdefault = "pickup"
+        }
+
+        item Hat
+        {
+            pos:		208 84 0
+            name:		"Hut"
+            walk:		240 265 90
+            sprite:		"kueche/hut.png"
+            hotspot:	0 0 48 25
+
+            lookat_text = "Komisch, er hat 2 L�cher �ber der Krempe."
+            rdefault = "pickup"
+        }
+
+        item Pot
+        {
+            pos:		508 200 0
+            name:		"Topf"
+            hotspot:	0 0 41 32
+            sprite:		"kueche/topf.png"
+            walk:		490 295 180
+
+            lookat_text = "Ein Kochtopf."
+            rdefault = "pickup"
+        }
+
+        item Waxfruits
+        {
+            pos:		508 148 0
+            name:		"Wachsfruechte"
+            hotspot:	0 0 30 17
+            sprite:		"kueche/wachsfruechte.png"
+            walk:		490 290 180
+
+            lookat_text = "Hmm, da steht 'Produced by Purple Tentacle TM'."
+            rdefault = "pickup"
+        }
+
+        item Tabasco
+        {
+            pos:		517 70 0
+            hotspot:	0 0 11 39
+            name:		"Tabascosauce"
+            walk:		492 295 180
+            sprite:		"kueche/tabasco.png"
+
+            lookat_text = "Extra scharfer Chilli Todes-Tabasco."
+            rdefault = "pickup"
+        }
+
+        item Glue
+        {
+            pos:		530 172 0
+            name:		"Leimtube"
+            hotspot:	0 0 22 8
+            sprite:		"kueche/leim.png"
+            walk:		492 300 180
+
+            lookat_text = "Superharter durchsichtiger Sekundenkleber."
+            rdefault = "pickup"
+        }
+
+        item PotOnHearth
+        {
+            name:		"Topf"
+            pos:		130 192 1
+            hotspot:	0 0 41 32
+            //sprite:		"kueche/wachsfruechte_topf.png"
+            sprite:		"kueche/waxtopf.sprite"
+            walk:		225 315 0
+
+            lookat_text = "Ein Kochtopf mit Wachsfr�chten."
+            hide = true
+            boiling = false
+            rdefault = "pickup"
+        }
+
+        item Door
+        {
+            pos:        310 75 0
+            name:		"Kuechentuer"
+            hotspot:	49 11 98 148
+            sprite:	"kueche/tuer_foyer2_auf.png"
+            walk:		410 250 90
+
+            lookat_text = "Da geht es zur�ck zum Foyer."
+            open = true
+
+            rdefault = "open"
+            rdefault_sw = "close"
+        }
+    }
+}
+
+bagitem Hat
+{
+	sprite:		"bag/s_hut.png"
+	name: 		"Hut"
+
+	lookat_text = "Ein Cowboyhut mit 2 L�chern �ber der Krempe."
+}
+
+bagitem Jacket
+{
+	sprite:		"bag/s_jacke.png"
+	name:		"Jacke"
+
+	lookat_text = "Das ist der Kittel des Kochs."
+}
+
+bagitem Pot
+{
+	sprite:		"bag/s_topf.png"
+	name:		"Topf"
+
+	lookat_text = "Ein normaler Kochtopf."
+}
+
+bagitem Tabasco
+{
+	sprite:		"bag/s_tobasco.png"
+	name:		"Tabascosauce"
+
+	lookat_text = "Extra scharfer Chilli Todes-Tabasco."
+}
+
+bagitem Waxfruits
+{
+	sprite:		"bag/s_wachsfruechte2.png"
+	name:		"Wachsfr�chte"
+
+	lookat_text = "Wachsfr�chte mit der Aufschrift 'Produced by Purple Tentacle TM'."
+}
+
+bagitem Glue
+{
+	sprite:		"bag/s_leim.png"
+	name:		"Leimtube"
+
+	lookat_text = "Superharter durchsichtiger Sekundenkleber."
+}
+
+bagitem Waxfingerprint
+{
+	sprite:		"bag/s_wachsnegativ.png"
+	name:		"Wachsabgu� eines Fingerabdrucks"
+
+	lookat_text = "Ein Wachsabgu� eines Daumenabdrucks."
+}

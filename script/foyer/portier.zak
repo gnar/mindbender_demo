@@ -1,0 +1,237 @@
+portier = CreateActor()
+portier.font = Font("std.font")
+portier.font.r=0
+portier.font.g=255
+portier.font.b=255
+
+portier.walk_sprite = Sprite("portier/walk.sprite")   // Beim Laufen
+portier.still_sprite = Sprite("portier/still.sprite") // Beim Stehen
+portier.talk_sprite = Sprite("portier/talk.sprite")   // Beim Reden
+
+portier.name = "Portier"
+
+portier.hotspot = Shape(-40, -175, 80, 175)       // x/y=-40/-175 da relativ zum fuss
+
+portier.scale = 100
+portier.speed = 105
+
+portier.height = 225
+portier.width = 120
+
+//portier.x = 100
+//portier.y = 300
+
+portier.rdefault = "talkto"
+
+portier.seeyou = true
+
+portier.EnterRoom(Foyer, 296, 250)
+
+portier.StateWalkTo = function(x, y, from_state, next_state)
+{
+	$SWalkTo(x, y)
+	if ($x == x and $y == y) {
+		if ($state == from_state) $state = next_state
+		return(1) //true
+	} else {
+		return() //false
+	}
+}
+
+portier.ThreadFunc = function()
+{
+	$state = 5
+
+	while (1)
+	{
+		//println($state," - ",portier.seeyou)
+		switch ($state)
+		{
+			case(0) // no op
+			{
+				yield()
+			}
+			case(1) // Gehe zur Treppe
+			{
+				portier.seeyou = true
+				$StateWalkTo(57, 225, 1, 2)
+			}
+			case(2) // Laufe die Treppe hoch
+			{
+				portier.seeyou = false
+				$StateWalkTo(43, 104, 2, 3)
+			}
+			case(3) // verschwinde und tauche wieder auf
+			{
+				portier.seeyou = false
+				//$state = 10 // 10 bedeutet "bitte portier nicht von außen stören"
+				$EnterRoom(null)
+				Delay(6000)
+				$EnterRoom(Foyer, 43, 104)
+				$state = 4
+			}
+			case(4) // Laufe die Treppe runter
+			{
+				portier.seeyou = false
+				$StateWalkTo(57, 225, 4, 5)
+			}
+			case(5) // Laufe hinter den Tresen
+			{
+				portier.seeyou = true
+				$StateWalkTo(296, 250, 5, 6)
+				$dir = 270
+			}
+			case(6) // Warte hinter dem Tresen
+			{
+				portier.seeyou = true
+				local t = Timer()
+				while (t.time < 5000 and $state == 6) yield()
+				if ($state == 6) $state = 1
+			}
+			case(9) // Gehe zu Kuechentuer und mach sie zu
+			{
+				portier.seeyou = true
+				if (portier.StateWalkTo(590, 280))
+				{
+					$state = 10 // Ununterbrechbar
+					portier.Talk("Hrmpf!")
+					Delay(250)
+					Foyer.Steeldoor.sprite = null
+					Sfx.metaldoorclose.Play()
+					Foyer.Steeldoor.open = false
+					Delay(500)
+					$state = 5
+				}
+			}
+
+			else
+			{
+				println("can not happen")
+				yield()
+			}
+		}//switch
+
+		if ($state != 0 and $state != 2 and $state != 3 and $state != 4 and Foyer.Steeldoor.open and not ego.wearcostume) $state = 9
+	} //while(1)
+}
+
+// Warte, bis Portier ununterbrechbare Aktion durchgefuehrt hat
+portier.Wait = function()
+{
+	while ($state == 10) yield()
+}
+
+portier.TalkToAsKoch = function()
+{
+	Suspend()
+	ego.Talk("Hallo!")
+	Delay(500)
+
+	portier.Wait()
+
+	portier.state = 0
+	portier.STalk("Einen Moment bitte.")
+	ego.WalkTo(241,300)
+	ego.dir=90
+	portier.SWalkTo(296, 264)
+	portier.dir = 270
+	ego.SWalkTo(241,300)
+
+
+	portier.STalk("Hey Ernesto, was machst Du hier draußen ?")
+	ego.STalk("Ähm, nichts weiter ...")
+	portier.STalk("Dann arbeite lieber in der Küche weiter, als mit mir zu quatschen.")
+
+	$state = 5	
+
+	Delay(500)
+	Resume()
+
+}
+
+portier.TalkTo = function()
+{
+	Suspend()
+	ego.Talk("Hallo!")
+	Delay(500)
+
+	portier.Wait()
+
+	if (portier.state == 9 and ego.wearcostume==false) // Schlieszt gerade die Tuer?
+	{
+		portier.state = 0
+		portier.STalk("Waren Sie in der Küche?")
+		portier.STalk("Das dürfen Sie nicht!")
+		Delay(250)
+		portier.state = 5
+		Resume()
+		return()
+	}
+
+
+	portier.state = 0
+	portier.STalk("Einen Moment bitte.")
+	ego.WalkTo(241,300)
+	portier.SWalkTo(296, 264)
+	portier.dir = 270
+	ego.SWalkTo(241,300)
+	ego.dir = 90
+	portier.STalk("Was kann ich für Sie tun?")
+
+	ans=0
+	while (ans != 3)
+	{
+
+		Talker.Add("Ich suche einen Mister Black - kennen sie ihn ?")
+		Talker.Add("Haben sie einen Safe im Hotel ?")
+		Talker.Add("Warum sind wir so komisch animiert ?")
+		Talker.Add("Bis später dann...")
+
+		ans = Talker.Answer()
+		ego.STalk(Talker.Text())
+	
+		if (ans == 0)
+		{
+			portier.STalk("Mr.Black ist wie immer um diese Zeit beim Dinner in der Lounge, Sir.")
+		}
+
+		if (ans == 1)
+		{
+			portier.STalk("Unser Hotelsafe befindet sich im Keller, Sir.")
+			portier.STalk("Er ist mit einem modernen Fingerabdruckscanner ausgestattet,")
+			portier.STalk("um unseren Gästen ein hohes Maß an Sicherheit und ...")
+			portier.STalk("einen individuellen Zugang zu ihren Wertsachen zu gewährleisten, Sir.")
+		}
+
+		if (ans == 2)
+		{
+			portier.STalk("Nun ja, ich schätze das bei einer Tech-Demo...")
+			portier.STalk("noch nicht alles 100 Prozent stimmen muss, Sir.")
+			Talker.Add("Ich finde das störend.")
+			Talker.Add("Ja, das klingt plausibel.")
+			ans2=Talker.Answer()
+			ego.STalk(Talker.Text())
+			if (ans2 == 0)
+			{
+				portier.STalk("Sie können ja gerne unter www.zak2project.de versuchen mitzuhelfen, Sir.")
+			}
+			else
+			{
+				portier.STalk("Denke ich auch, Sir.")
+			}	
+
+		}
+
+		if (ans == 3)
+		{
+			portier.STalk("Bis später, Sir")
+		}
+	
+	}
+
+	$state = 5
+
+	Resume()
+}
+
+portier.thread = sys.startthread(portier.ThreadFunc, portier)

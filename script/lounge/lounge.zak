@@ -1,0 +1,122 @@
+Execute("script/lounge/caponier.zak")
+Execute("script/lounge/eating.zak")
+
+DefaultPickup(Lounge.Glasses, Inv.Glasses)
+//DefaultPickup(Lounge.Carafe, Inv.Carafe)
+
+//////////
+// Door //
+//////////
+
+event scumm open: Lounge.Door:obj
+{
+
+	if (obj.open)
+	{
+		WalkTo(166,298)
+		ego.dir=270
+		Talk("Die Tür ist schon offen.")	
+	}
+	else
+	{
+		WalkTo(obj)
+		obj.sprite = Sprite("lounge/tuer_foyer1_auf.png")
+		Sfx.doubledooropen.Play()
+		obj.open = true
+	}
+
+}
+
+event scumm close: Lounge.Door:obj
+{
+
+	if (obj.open)
+	{
+		WalkTo(obj)
+		obj.sprite = null
+		Sfx.doubledoorclose.Play()
+		obj.open = false
+	}
+	else
+	{
+		WalkTo(166,298)
+		ego.dir=270
+		Talk("Die Tür ist schon geschlossen.")	
+	}
+
+
+}
+
+event scumm lookat: Lounge.Door:obj
+{
+	WalkTo(166,298)
+	ego.dir=270
+	Talk("Da geht es zurück zum Foyer.")
+}
+
+event scumm walkto: Lounge.Door:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		ego.EnterRoom(Foyer, 490, 240)
+		ego.SWalkTo(490,245)
+		Music.barjazz.mute = 16
+	}
+	else
+	{
+		WalkTo(obj)
+	}
+}
+////////////
+// Carafe //
+////////////
+
+event scumm pickup: Lounge.Carafe:obj
+{
+
+	if (caponier.burning)
+	{
+		WalkTo(obj)
+		Lounge.RemObject(obj)
+		Sfx.get.Play()
+		ego.AddBagItem(Inv.Carafe)
+	}
+	else
+	{
+		WalkTo(obj)
+		Suspend()
+		caponier.STalk("Hey, lassen sie meine Wasserkaraffe in Ruhe!")
+		Delay(400)
+		ego.dir=270
+		ego.STalk("Hmm, ich muß mir etwas Anderes einfallen lassen, um an die Karaffe zu kommen.")
+		Resume()
+	}
+
+}
+
+///////////////////
+// Spicing Plate //
+///////////////////
+
+event scumm use: Inv.Tabasco, Lounge.Plate:obj
+{
+	if (ego.wuerzen)
+	{
+		sys.startthread(caponier.SpiceReaction, caponier)
+	}
+	else
+	{
+		WalkTo(obj)
+		Suspend()
+		caponier.STalk("Was wollen sie damit an meinem Essen?!?")
+		caponier.STalk("Höchstens der Koch persönlich darf nachwürzen!")
+		Delay(400)
+		ego.dir=270
+		ego.STalk("Oh, das war deutlich.")
+		Resume()
+	}
+
+}
+
+

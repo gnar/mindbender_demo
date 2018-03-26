@@ -1,0 +1,138 @@
+// Waxfruits in pot
+event scumm use: Inv.Waxfruits, Inv.Pot
+{
+	Sfx.metaldump.Play()
+	ego.RemBagItem(Inv.Waxfruits)
+	ego.RemBagItem(Inv.Pot)
+	ego.AddBagItem(Inv.Waxpot)
+}
+
+event scumm use:  Inv.Pot, Inv.Waxfruits
+{
+	Sfx.metaldump.Play()
+	ego.RemBagItem(Inv.Waxfruits)
+	ego.RemBagItem(Inv.Pot)
+	ego.AddBagItem(Inv.Waxpot)
+}
+
+
+// Glue on glasses and not nose
+event scumm use: Inv.Glasses, Inv.Glue
+{
+	Sfx.cluesquirt.Play()
+	ego.RemBagItem(Inv.Glasses)
+	ego.AddBagItem(Inv.Glued_Glasses)
+}
+
+event scumm use: Inv.Glue, Inv.Glasses
+{
+	Sfx.cluesquirt.Play()
+	ego.RemBagItem(Inv.Glasses)
+	ego.AddBagItem(Inv.Glued_Glasses)
+}
+
+event scumm use: Inv.Glue, Inv.Nose
+{
+	ego.STalk("Ich sollte den Leim lieber am Gegenstück auftragen.")
+}
+
+event scumm use: Inv.Nose, Inv.Glue
+{
+	ego.STalk("Ich sollte den Leim lieber am Gegenstück auftragen.")
+}
+
+// Nose with glued glasses
+
+event scumm use: Inv.Glued_Glasses, Inv.Nose
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Nose)
+	ego.RemBagItem(Inv.Glued_Glasses)
+	ego.AddBagItem(Inv.Funglasses)
+}
+
+event scumm use: Inv.Nose, Inv.Glued_Glasses
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Nose)
+	ego.RemBagItem(Inv.Glued_Glasses)
+	ego.AddBagItem(Inv.Funglasses)
+}
+
+// Funglasses and Hat
+
+event scumm use: Inv.Hat, Inv.Funglasses
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Hat)
+	ego.RemBagItem(Inv.Funglasses)
+	ego.AddBagItem(Inv.Funglasseshat)
+}
+
+event scumm use:  Inv.Funglasses, Inv.Hat
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Hat)
+	ego.RemBagItem(Inv.Funglasses)
+	ego.AddBagItem(Inv.Funglasseshat)
+}
+
+// Kostuem
+event scumm use:  Inv.Funglasseshat, Inv.Jacket
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Jacket)
+	ego.RemBagItem(Inv.Funglasseshat)
+	ego.AddBagItem(Inv.Costume)
+}
+
+event scumm use:  Inv.Jacket, Inv.Funglasseshat
+{
+	Sfx.puttogether.Play()
+	ego.RemBagItem(Inv.Jacket)
+	ego.RemBagItem(Inv.Funglasseshat)
+	ego.AddBagItem(Inv.Costume)
+}
+
+event scumm use: Inv.Costume
+{
+	Sfx.clothes.Play()
+
+	if (ego.wearcostume)
+	{
+		ego.dir=270
+		ego.STalk("Ok, ich ziehe mich wieder um.")
+		ego.walk_sprite = Sprite("zak/censored.sprite")
+		ego.still_sprite = Sprite("zak/censored.sprite")
+		Delay(500)
+		ego.walk_sprite = Sprite("zak/walk.sprite")
+		ego.still_sprite = Sprite("zak/still.sprite")
+		ego.talk_sprite = Sprite("zak/talk.sprite")
+		ego.wearcostume=false
+	}
+	else
+	{
+		ego.dir=270
+		ego.STalk("Ok, ich ziehe das Kostüm an.")
+		ego.walk_sprite = Sprite("zak/censored.sprite")
+		ego.still_sprite = Sprite("zak/censored.sprite")
+		Delay(500)
+		ego.walk_sprite = Sprite("zak/walk_costume.sprite")
+		ego.still_sprite = Sprite("zak/still_costume.sprite")
+		ego.talk_sprite = Sprite("zak/talk_costume.sprite")
+		ego.Talk("Jetzt erkennt mich keiner mehr.")
+		ego.wearcostume=true
+	}
+
+}
+
+// Fingerprint
+event scumm use:  Inv.Glue, Inv.Waxfingerprint
+{
+	ego.Talk("Gute Idee, ich stelle einen Fingerabdruck aus dem Wachsabguß her.")
+	Sfx.cluesquirt.Play()
+	ego.RemBagItem(Inv.Waxfingerprint)
+	ego.AddBagItem(Inv.Fingerprint)
+}
+
+

@@ -1,0 +1,116 @@
+Talker = 
+[
+	// Dimensions of Talker bar
+	x = 0
+	y = 384
+	width = 640
+	height = 96
+
+	// The used font
+	font = Font("std.font")
+
+	slots = array [
+		[ /* Row 1 */ x = 10, y =  0, hotspot = Shape(0, 0, 620, 16) ],
+		[ /* Row 2 */ x = 10, y = 16, hotspot = Shape(0, 0, 620, 16) ],
+		[ /* Row 3 */ x = 10, y = 32, hotspot = Shape(0, 0, 620, 16) ],
+		[ /* Row 4 */ x = 10, y = 48, hotspot = Shape(0, 0, 620, 16) ]
+	]
+
+	Add = function(line)
+	{
+		$_lines[$_num_lines] = line
+		$_num_lines = $_num_lines + 1
+	}
+
+	Draw = function()
+	{
+		local line_idx = 0, slot
+		foreach (slot in $slots)
+		{
+			local line = $_lines[line_idx]
+			if (line)
+			{
+				if (line_idx == $_mouse_idx)
+					$font.b = 0
+				else
+					$font.b = 255
+
+				$font.Print($x + slot.x, $y + slot.y, line)
+			}
+			line_idx = line_idx + 1
+		}
+	}
+
+	Move = function(mouse_x, mouse_y)
+	{
+		local X = mouse_x - $x, Y = mouse_y - $y 
+		local line_idx = $_get_line_at(X, Y)
+		if (line_idx)
+		{
+			$_mouse_idx = line_idx
+		} else {
+			$_mouse_idx = -1
+		}
+	}
+
+	Click = function(mouse_x, mouse_y)
+	{
+		local X = mouse_x - $x, Y = mouse_y - $y 
+		local line_idx = $_get_line_at(X, Y)
+		if (line_idx) if ($_lines[line_idx])
+		{
+			$_clicked_idx = line_idx
+		}
+	}
+
+	IsActive = function()
+	{
+		return($_is_active)
+	}
+
+	Answer = function()
+	{
+		$_is_active = 1
+		while ($_clicked_idx == -1) yield()
+		local result = $_clicked_idx
+		$_last_text = $_lines[result]
+		$_reset()
+		return(result)
+	}
+
+	Text = function()
+	{
+		return($_last_text)
+	}
+
+	_num_lines = 0
+	_lines = array []
+	_mouse_idx = -1
+	_clicked_idx = -1
+	_is_active = null
+
+	_reset = function()
+	{
+		$_num_lines = 0
+		$_lines = array []
+		$_mouse_idx = -1
+		$_clicked_idx = -1
+		$_is_active = null
+	}
+
+	_get_line_at = function(x, y)
+	{
+		local slot, idx = 0
+		foreach(slot in $slots)
+		{
+			local X = x - slot.x
+			local Y = y - slot.y
+			if (slot.hotspot.Hit(X, Y)) return(idx)
+			idx = idx + 1
+		}
+	}
+]
+
+
+
+

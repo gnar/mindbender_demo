@@ -1,0 +1,298 @@
+
+DefaultPickup(Kitchen.Pot, Inv.Pot)
+DefaultPickup(Kitchen.Waxfruits, Inv.Waxfruits)
+DefaultPickup(Kitchen.Tabasco, Inv.Tabasco)
+DefaultPickup(Kitchen.Jacket, Inv.Jacket)
+DefaultPickup(Kitchen.Hat, Inv.Hat)
+DefaultPickup(Kitchen.Glue, Inv.Glue)
+
+Kitchen.hearth_on = false           // Is hearth switched on?
+Kitchen.waxpot_on_hearth = false    // Is wax pot on hearth?
+Kitchen.wax_molted = false          // Is wax on hearth molted?
+Kitchen.cook_thread = null
+
+//////////
+// Door //
+//////////
+
+event scumm open: Kitchen.Door:obj
+{
+
+	if (obj.open)
+	{
+		Talk("Die T¸r ist schon offen.")	
+	}
+	else
+	{
+		WalkTo(obj)
+		obj.sprite = Sprite("kueche/tuer_foyer2_auf.png")
+		Sfx.metaldooropen.Play()
+		obj.open = true
+		Music.barjazz.mute = Music.barjazz.mute-16
+	}
+
+}
+
+event scumm close: Kitchen.Door:obj
+{
+
+	if (obj.open)
+	{
+		WalkTo(obj)
+		obj.sprite = null
+		Sfx.metaldoorclose.Play()
+		obj.open = false
+		Music.barjazz.mute = Music.barjazz.mute+16
+	}
+	else
+	{
+		Talk("Die T¸r ist schon geschlossen.")	
+	}
+
+
+}
+
+event scumm walkto: Kitchen.Door:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		ego.EnterRoom(Foyer, 600, 280)
+		ego.SWalkTo(580,280)
+		Music.barjazz.mute = Music.barjazz.mute-16
+	}
+	else
+	{
+		WalkTo(obj)
+	}
+}
+
+
+
+//////////////////////////////
+// Cabinet - Open and close //
+//////////////////////////////
+
+event scumm open: Kitchen.Cabinet:obj
+{
+	WalkTo(obj)
+
+	if (obj.open) {
+		Talk("Der Schrank ist schon offen.")
+	} else {
+		obj.open = 1
+		obj.layer = 0
+		Sfx.cupboardopen.Play()
+		obj.sprite = Sprite("kueche/schrank_offen.png")
+	}
+}
+
+event scumm close: Kitchen.Cabinet:obj
+{
+	WalkTo(obj)
+
+	if (obj.open) {
+		obj.open = null
+		obj.layer = 1
+		Sfx.cupboardclose.Play()
+		obj.sprite = Sprite("kueche/schrank_zu.png")
+	} else {
+		Talk("Der Schrank ist schon geschlossen.")
+	}
+}
+
+///////////
+// Photo //
+///////////
+
+event scumm lookat: Kitchen.Photo
+{
+	WalkTo(Kitchen.Photo)
+	LookAtPhoto()
+}
+
+/////////////////////////////
+// Hearth, Pot, Wax fruits //
+/////////////////////////////
+
+event scumm use: Kitchen.Hearth
+{
+	WalkTo(Kitchen.Hearth)
+
+	if (Kitchen.hearth_on)
+	{
+		Sfx.hearthswitch.Play()
+
+		Kitchen.hearth_on = false
+		Kitchen.Hearth.name = "Herd"
+
+		if (Kitchen.cook_thread)
+		{
+			Kitchen.cook_thread.kill()
+			Kitchen.cook_thread = null
+		}
+		
+		Kitchen.PotOnHearth.lookat_text = "Das Wachs ist wieder erkaltet."
+		Kitchen.PotOnHearth.sprite.track="cold"
+		Kitchen.PotOnHearth.boiling=false
+
+	} else if (not Kitchen.waxpot_on_hearth) {
+
+		Talk("Ich brauche erst etwas zum Kochen.")
+
+	} else {
+
+		Talk("Ok.")
+		Sfx.hearthswitch.Play()
+
+		Kitchen.hearth_on = true
+		Kitchen.Hearth.name = "Herd (ein)"
+
+		Kitchen.cook_thread = sys.startthread(function()
+		{
+		while(true)
+		{
+			if ( Kitchen.wax_molted == false) 
+			{
+				Delay(10000)
+				//Kitchen.PotOnHearth.sprite = Sprite("kueche/wachs_topf.png")
+				Kitchen.PotOnHearth.sprite.track="hot"
+				Kitchen.PotOnHearth.lookat_text = "Das Wachs kocht."
+				Kitchen.PotOnHearth.name = "heiﬂes Wachs"
+				Kitchen.wax_molted = true
+				Sfx.boiling.Play()
+				Kitchen.PotOnHearth.boiling=true
+
+			}
+			else
+			{
+				if ( ego.room == Kitchen )
+				{
+					//println("Boiling SFX")
+					Kitchen.PotOnHearth.sprite.track="hot"
+					Kitchen.PotOnHearth.lookat_text = "Das Wachs kocht."
+					Sfx.boiling.Play()
+					Kitchen.PotOnHearth.boiling=true
+				}
+				else
+				{
+					//println("Boiling SFX stop")
+					Sfx.boiling.Stop()	
+				}
+			}
+			Delay(2000)
+		}
+		}, null)
+
+		Delay(500)
+		Talk("Wenn das mal gutgeht!")
+	}
+}
+
+event scumm use: Inv.Pot, Kitchen.Hearth
+{
+	WalkTo(Kitchen.Hearth)
+	Talk("Vielleicht sollte ich vorher etwas in den Topf legen.")
+}
+
+event scumm use: Inv.Waxpot, Kitchen.Hearth
+{
+	WalkTo(Kitchen.Hearth)
+	
+	ego.RemBagItem(Inv.Waxpot)
+
+	Kitchen.PotOnHearth.hide = false
+	Sfx.metal.Play()
+	Kitchen.waxpot_on_hearth = true
+}
+
+event scumm pickup: Kitchen.PotOnHearth
+{
+	WalkTo(Kitchen.PotOnHearth)
+	if (Kitchen.wax_molted)
+	{
+		Talk("Diese Sauerei kommt nicht in meine Tasche!")
+	} else if (Kitchen.hearth_on) {
+		Talk("Ich sollte zuerst den Herd ausmachen.")
+	} else {
+		Sfx.get.Play()
+		ego.AddBagItem(Inv.Waxpot)
+
+		Kitchen.PotOnHearth.hide = true
+		Kitchen.waxpot_on_hearth = false
+	}
+}
+
+event scumm lookat: Kitchen.Hearth:obj
+{
+	WalkTo(obj)
+	Talk("Ein Elektroherd.")
+	if (Kitchen.hearth_on)
+	{
+		Delay(1000)
+		Talk("Er ist eingeschaltet.")
+	}
+}
+
+event scumm use: Inv.Carafe, Kitchen.PotOnHearth:obj
+{
+	if (Kitchen.PotOnHearth.boiling)
+	{
+
+		if (Kitchen.wax_molted)
+		{
+			if (Inv.Carafe.used)
+			{
+				Talk("Ich habe doch schon eine Abguﬂ gemacht.")
+			}
+			else
+			{
+				WalkTo(obj)
+				Talk("Ok, ich mache einen Wachsabguﬂ von dem Daumenabdruck auf der Karaffe.")
+				Sfx.dunk.Play()
+				ego.AddBagItem(Inv.Waxfingerprint)
+				Inv.Carafe.used=true
+			}
+		}
+		else
+		{
+			WalkTo(obj)
+			Talk("Ich sollte warten, bis das Wachs geschmolzen ist.")
+		}
+	}
+	else
+	{
+			WalkTo(obj)
+			Talk("Ohne kochendes Wachs kann ich keinen Abguﬂ machen.")
+	}
+	
+}
+
+
+event scumm use: ANY, Kitchen.PotOnHearth:obj
+{
+	if (Kitchen.wax_molted)
+	{
+		WalkTo(obj)
+		Talk("Ich glaube nicht, daﬂ noch Zutaten fehlen.")
+	}
+	else
+	{
+		WalkTo(obj)
+		Talk("Ich sollte warten, bis das Wachs geschmolzen ist.")
+	}
+
+}
+
+//////////////////////////
+// Other Things in Room //
+//////////////////////////
+
+event scumm open: Kitchen.Freezer:obj
+{
+		WalkTo(obj)
+		Sfx.shutfridge.Play()
+		Talk("Mist, er klemmt.")
+}
+
+

@@ -1,0 +1,96 @@
+script: "script/basement/basement.zak"
+
+room Basement
+{
+	tilt:  		30
+	scaling: 	perspective 40 330
+	path: 		"keller/keller.polygon"
+
+	mainplane {
+		size:  680 380
+	 	image: "keller/keller_background.png"
+
+		item
+		{
+			pos:		0 0 3
+			sprite: 	"keller/kellerwand.png"
+		}
+		
+		item Beagle
+		{
+			pos:		255 275 0
+			hotspot:	0 0 290 105
+			walk:		180 365 180
+			name:		"Weltraumschrott"
+			
+			lookat_text = "Ein abgestürzter Satellit, der auch schon bessere Tage gesehen hat."
+		}
+		
+		item Cable
+		{
+			pos:		168 100 0
+			name:		"Stromkabel"
+			sprite:	"keller/blitz.sprite"
+			hotspot:	0 151 100 28
+			walk:		275 260 0
+			
+			lookat_text = "Ein altes Stromkabel."
+			rdefault = "pickup"
+		
+		}
+		
+		item Scanner
+		{
+			pos:		384 141 0
+			name:		"Fingerabdruckscanner"
+			sprite:		"keller/scanner.sprite"
+			walk:		365 242 90
+			hotspot:	0 0 25 29
+		
+			lookat_text = "Interessant, der Scanner reagiert nur auf einen Daumenabdruck."
+			open_text = "Ich habe nicht das richtige Werkzeug dafür."
+			//usable = true
+			locked = true
+		
+		}
+		
+		item Safe
+		{
+			pos:		203 85 1
+			name:		"Safe"
+			hotspot:	64 10 102 125
+			walk:		320 240 90
+			//sprite:		"keller/safe_auf.png"
+		
+			lookat_text = "Darin befindet sich wohl das Amulett."
+			open = false
+		
+			rdefault = "open"
+			rdefault_sw = "close"
+		}
+		
+		item Amulett
+		{
+			pos:		301 127 0
+			name:		"Amulett"
+			//sprite:		"keller/amulett.png"
+			hotspot:	0 0 46 23
+			walk:		330 240 90
+		
+			lookat_text = "Das ist das gesuchte Amulett."
+			take = false
+		
+			rdefault = "pickup"
+		
+		}
+		
+		item Stairs
+		{
+			pos:		5 80 0
+			name:		"Treppe"
+			hotspot:	0 0 115 250
+			walk:		25 215 0
+		}
+	}
+}
+

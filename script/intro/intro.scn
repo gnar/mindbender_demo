@@ -1,0 +1,52 @@
+script: "script/intro/intro.zak"
+
+room Intro
+{
+	path:		"intro/intro2.polygon"
+	scaling:	perspective 240 365
+
+	mainplane {
+		size:		640 380
+		image: 	"intro/logo2.png"
+		
+		item 	// Zaks is hidden
+		{
+			pos:		273 218 3
+			sprite:	"intro/no_door.png"
+		}
+	}
+}
+
+room Intro1
+{
+	path:		"intro/intro2.polygon"
+	scaling:	perspective 250 365
+
+	mainplane {
+		size:		640 380
+		image: 	"intro/logo2a.png"
+	}
+}
+
+room Intro2
+{
+	path:		"intro/intro.polygon"
+	scaling:	perspective 250 365
+
+	mainplane {
+		size:		640 380
+		image: 	"intro/logo2b2.png"
+	}
+}
+
+room Extro
+{
+	path:		"extro/extro.polygon"
+	scaling: 	perspective 40 330
+
+	mainplane {
+		size:   640 360
+		image: 	"extro/extro.png"
+	}
+}
+

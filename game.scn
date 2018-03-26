@@ -1,0 +1,11 @@
+
+prolog script:	"script/_prolog.zak"
+run script:	"script/_run.zak"
+
+scene:		"script/kitchen/kitchen.scn"
+scene:		"script/basement/basement.scn"
+scene:		"script/foyer/foyer.scn"
+scene:		"script/lounge/lounge.scn"
+scene:		"script/photo/photo.scn"
+scene:		"script/inventory.scn"
+scene:		"script/intro/intro.scn"

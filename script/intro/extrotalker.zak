@@ -1,0 +1,55 @@
+extrotalker = CreateActor()
+extrotalker.font = Font("std.font")
+extrotalker.font.r=255
+extrotalker.font.g=255
+extrotalker.font.b=0
+
+extrotalker.still_sprite = Sprite("extro/square.sprite") // Beim Stehen
+extrotalker.talk_sprite = Sprite("extro/square.sprite") // Beim Reden
+
+extrotalker.no_auto_scale = true
+extrotalker.speed = 30
+
+extrotalker.height = 1
+extrotalker.width = 80
+
+
+extrotalker.EnterRoom(Extro, 320, 360)
+
+
+extrotalker.ThreadFunc = function()
+{
+
+	while (true)
+	{
+		Delay(5000)
+
+		extrotalker.STalk("Demo Idee: Torsten Schöps")
+		Delay(5000)
+
+		extrotalker.STalk("Engine Programmierung : ")
+		extrotalker.STalk("Gunnar Selke")
+		Delay(5000)
+
+		extrotalker.STalk("Grafik & Animation : ")
+		extrotalker.STalk("Raimond Forkert")
+		Delay(5000)
+
+		extrotalker.STalk("Script Programmierung :")
+		extrotalker.STalk("Gunnar Selke & Torsten Schöps")
+		Delay(5000)
+
+		extrotalker.STalk("Musik & Sound-Effekte : ")
+		extrotalker.STalk("Robert Kaak & Torsten Schöps")
+		Delay(5000)
+
+		extrotalker.STalk("Zak's Stimmme im Intro :")
+		extrotalker.STalk("Jan Paul Sommer")
+		Delay(8000)
+
+
+		extrotalker.STalk("Ok das wars ...")
+		extrotalker.STalk("... du kannst jetzt die Tech-Demo schließen.")
+		Delay(5000)
+	}		
+}

@@ -1,0 +1,16 @@
+script: "script/photo/photo.zak"
+
+room Photo
+{
+	mainplane {
+		image: 	"photo/photo_background.png"
+		size:		640 380
+		
+		item Back
+		{
+			name:		"zurueck"
+			hotspot:	0 0 640 360
+		}
+	}
+}
+

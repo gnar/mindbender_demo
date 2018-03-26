@@ -1,0 +1,118 @@
+Execute("script/basement/lightning.zak")
+
+jaul_count = 0
+
+event scumm pickup: Basement.Cable:cable
+{
+	WalkTo(cable)
+
+	if (jaul_count >= 3)
+	{
+		Delay(500)
+		WalkRel(0, 20)
+		Talk("Willst Du mich umbringen?")
+	} else {
+		Suspend()
+		jaul_count = jaul_count + 1
+		cable.sprite =  Sprite("keller/blitz.sprite") //Replay Animation
+		Sfx.electric.Play()
+		Delay(1000)
+		WalkRel(0, 20)
+		Talk("JAUL!")
+		Resume()
+	}
+}
+
+event scumm use: Inv.Fingerprint, Basement.Scanner:scanner
+{
+	WalkTo(scanner)
+
+	Sfx.beep_ok.Play()
+
+	if (scanner.locked) {
+		scanner.sprite.track = "off"
+	} else {
+		scanner.sprite.track = "on"
+	}
+	scanner.locked = not scanner.locked
+}
+
+
+event scumm use: Inv.Waxfingerprint, Basement.Scanner:scanner
+{
+	WalkTo(scanner)
+	Sfx.beep_err.Play()
+	Talk("Hmm, das hat nicht geklappt - vielleicht benötige ich ein Negativ vom Wachsabguß.")
+}
+
+event scumm use: ANY, Basement.Scanner:scanner
+{
+	WalkTo(scanner)
+	Talk("Nein, das klappt so nicht. Man benötigt den richtigen Daumenabdruck.")
+}
+
+event scumm open: Basement.Safe:safe
+{
+	WalkTo(safe)
+
+	if (safe.open) return()
+
+	if (Basement.Scanner.locked)
+	{
+		Talk("Der Safe ist verschlossen.")
+	} else {
+		safe.sprite = Sprite("keller/safe_auf.png")
+		Sfx.safe_open.Play()
+		safe.layer = 0
+		safe.open = true
+		Basement.Amulett.sprite = Sprite("keller/amulett.png")
+		Basement.Amulett.layer = 1
+		WalkTo(279,256)
+		ego.dir=270
+		Talk("Ok, der Safe ist offen.")
+	}
+}
+
+
+event scumm close: Basement.Safe:safe
+{
+	WalkTo(safe)
+
+	if (not safe.open) return()
+	
+	Sfx.safe_close.Play()
+	safe.sprite = null
+	safe.layer = 1
+	Basement.Amulett.sprite = null
+	Basement.Amulett.layer = 0
+	safe.open = false
+}
+
+event scumm lookat: Basement.Stairs:stairs
+{
+	WalkTo(125,325)
+	ego.dir=270
+	ego.Talk("Da geht's hoch zum Foyer.")
+}
+
+
+event scumm walkto: Basement.Stairs:stairs
+{
+	WalkTo(stairs)
+	ego.EnterRoom(Foyer, 135, 280)
+	ego.SWalkTo(135,285)
+	Music.barjazz.mute = Music.barjazz.mute-32
+}
+
+event scumm pickup: Basement.Amulett:obj
+{
+	WalkTo(obj)
+	Delay(400)
+	obj.sprite = Sprite("keller/amulett_empty.png")
+	obj.taken=true
+	Music.barjazz.Stop()
+	Sfx.fanfaren.Play()
+
+	sys.startthread(Extro.Start, Extro)
+}
+

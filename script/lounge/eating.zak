@@ -1,0 +1,20 @@
+caponier.ThreadFunc = function()
+{
+
+	while (true)
+	{
+		if (ego.room == Lounge and caponier.burning == false)
+		{
+			Sfx.eating.Play()		
+			Delay(4000)
+		}
+		else
+		{
+			Delay(4000)
+		}
+		
+	} //while(1)
+}
+
+
+caponier.thread = sys.startthread(caponier.ThreadFunc, caponier)

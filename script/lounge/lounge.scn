@@ -1,0 +1,151 @@
+script: "script/lounge/lounge.zak"
+
+room Lounge
+{
+	scaling: 		perspective 90 350
+	tilt:  		30
+	path: 		"lounge/lounge.polygon"
+
+	mainplane {
+		size:   900 380
+		image: 	"lounge/lounge_background.png"
+		
+		item Chairs
+		{
+			pos:		121 236 3
+			sprite: 	"lounge/stuehle.png"
+		}
+		
+		item Plant
+		{
+			pos:		114 134 0
+			name:		"Topfpflanze"
+			hotspot:	0 0 61 117
+			walk:		145 265 90
+		
+			lookat_text = "Ohh, eine Minipli violeta exterritorialis maxima."
+		}
+		
+		item Plate
+		{
+			pos:		675 253 2
+			name:		"Teller mit Essen"
+			hotspot:	0 0 43 23
+			walk:		655 366 180
+		
+			lookat_text = "Pikantes Mars-Kakerlaken-Steak in Weisswein-Sauce."
+			spiced = false
+			rdefault = "pickup"
+		}
+		
+		item Picture
+		{
+			pos:		805 94 0
+			name:		"Bild"
+			hotspot:	0 0 66 132
+			walk:		810 325 180
+		
+			lookat_text = "Ein altes Mars-Bild, wahrscheinlich von einem Mars-Pfadfinder aufgenommen."
+		}
+		
+		item Window1 
+		{
+			pos:		290 90 0
+			name:		"Fenster"
+			hotspot:	0 0 60 130
+			walk:		310 310 90
+		
+			lookat_text = "Oh Mars, oh welch Schönheit!"
+			open_text = "Nein, das lasse ich besser zu - immerhin sind wir auf dem Mars."
+		}
+		
+		item Window2
+		{
+			pos:		410 90 0
+			name:		"Fenster"
+			hotspot:	0 0 60 130
+			walk:		450 340 90
+		
+			lookat_text = "Oh Mars, oh welch Tristesse!"
+			open_text = "Nein, das lasse ich besser zu - immerhin sind wir auf dem Mars."
+		}
+		
+		item Window3 
+		{
+			pos:		540 90 0
+			name:		"vernageltes Fenster"
+			hotspot:	0 0 60 130
+			walk:		535 340 90
+		
+			lookat_text = "Der Beweis: Aus Provisorien werden Dauerlösungen."
+			open_text = "Nein, das lasse ich besser zu - immerhin sind wir auf dem Mars."
+		}
+		
+		item Window4 
+		{
+			pos:		660 90 0 
+			name:		"Fenster"
+			hotspot:	0 0 60 130
+			walk:		810 310 0
+		
+			lookat_text = "Hmm, von hier aus kann ich den Mars-Flughafen sehen."
+			open_text = "Nein, das lasse ich besser zu - immerhin sind wir auf dem Mars."
+		}
+		
+		item Door
+		{
+			pos:		30 116 0
+			name:		"Foyer"
+			hotspot:	0 0 40 221
+			sprite:	"lounge/tuer_foyer1_auf.png"
+			walk:		80 300 0
+		
+			open = true
+			//lookat_text = "Da geht es zurück zum Foyer."
+		
+			rdefault = "open"
+			rdefault_sw = "close"
+		}
+		
+		item Glasses
+		{
+			pos:		197 276 3 
+			name:		"Brille"
+			hotspot: 	0 0 38 17
+			sprite:	"lounge/brille.png"
+			walk:		230 325 270
+		
+			lookat_text = "Eine normale schwarze Hornbrille."
+			rdefault = "pickup"
+		}
+		
+		item Carafe 
+		{
+			pos:		648 220 0 
+			name:		"Karaffe"
+			sprite:	"lounge/karaffe.png"
+			hotspot:	0 0 22 51
+			walk:		625 366 90
+		
+			lookat_text = "Eine Wasser-Karaffe mit Fingerabdrücken."
+			rdefault = "pickup"
+		}
+	}
+}
+
+bagitem Glasses
+{
+	sprite:	"bag/s_brille.png"
+	name:		"Brille"
+
+	lookat_text = "Eine normale schwarze Hornbrille."
+}
+
+bagitem Carafe 
+{
+	name:		"Karaffe"
+	sprite:	"bag/s_karaffe.png"
+
+	lookat_text = "Eine Wasser-Karaffe mit Fingerabdrücken."
+	used = false
+}

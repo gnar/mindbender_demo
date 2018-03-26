@@ -1,0 +1,88 @@
+
+
+
+//////////////////////
+// Global functions //
+//////////////////////
+
+/*
+ * Stop interactive mode
+ */
+function Suspend()
+{
+	SuspendEvents("scumm")
+}
+
+/*
+ * Stop non-interactive mode
+ */
+function Resume()
+{
+	ResumeEvents("scumm")
+}
+
+/*
+ * Check if game is in interactive mode
+ */
+function IsInteractive()
+{
+	return(not IsSuspended("scumm"))
+}
+
+/*
+ * Delay/Sleep function
+ */
+function Delay(ms)
+{
+	local t = Timer()
+	while (t.time < ms) yield()
+}
+
+///////////////////////////////////
+// Shortcuts for 'ego' character //
+///////////////////////////////////
+
+/*
+ * Let 'ego' talk, synchronized
+ */
+function Talk(chat)
+{
+	ego.STalk(chat)
+}
+
+/*
+ * Walks ego to item or x/y-destination, synchronized
+ *
+ * Call: WalkTo(item)
+ *       WalkTo(x, y)
+ */
+function WalkTo(arg0, arg1)
+{
+	// hack: if SWalkTo is called with one item, arg1 is null
+	if (arg1 == null) {
+		ego.SWalkToObj(arg0)
+	} else {
+		// otherwise SWalkTo is called with 2 non-null coordinates
+		ego.SWalkTo(arg0, arg1)
+	}
+}
+
+/*
+ * Walk ego relative to current position
+ */
+function WalkRel(x, y)
+{
+	WalkTo(ego.x + x, ego.y + y)
+}
+
+/*
+ * Put 'ego' into another room, with optional new coordinates
+ * Call: EnterRoom(room)
+ *       EnterRoom(room, x, y)
+ */
+function EnterRoom(room, x, y)
+{
+	ego.EnterRoom(room, x, y)
+}
+
+

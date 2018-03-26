@@ -1,0 +1,139 @@
+// Music
+
+barjazz = Sound("sound/zak2_barjazz.ogg")
+barjazz.panning = 0
+barjazz.volume = 20
+barjazz.mute = 40
+barjazz.loop = 1
+
+demo = Sound("sound/zak2_demo.ogg")
+demo.panning = 0
+demo.volume = 30
+demo.loop = 1
+
+Music = [
+	barjazz = barjazz
+	demo = demo
+]
+
+// Effects
+
+Sfx = [
+
+	//Pickup noise
+	get = Sound("sound/get.wav")
+
+	//Scanner in Basement
+	beep_ok = Sound("sound/beep_ok.wav")
+	beep_err = Sound("sound/beep_err.wav")
+
+	// Cable in Basement
+	electric = Sound("sound/electric.wav")
+
+	//Safe in Basement
+	safe_open = Sound("sound/safe_open.wav")
+	safe_close = Sound("sound/safe_close.wav")
+	
+	//Get Amulett in Basement
+	fanfaren = Sound("sound/success.wav")
+
+	// Metalldoor in Kitchen
+	metaldooropen = Sound("sound/metaldoor_open.wav")
+	metaldoorclose = Sound("sound/metaldoor_close.wav")
+
+	//Cupboard in Kitchen
+	cupboardopen = Sound("sound/cupboard_open.wav")
+	cupboardclose = Sound("sound/cupboard_close.wav")
+
+	//Switch on Heard in Kitchen
+	hearthswitch = Sound("sound/switch.wav")
+
+	// Big Switch in Intro
+	bigswitch = Sound("sound/bigswitch.wav")
+
+	//Boiling Wax in Kitchen
+	boiling = Sound("sound/boiling.wav")
+
+	//Dunk things in wax in Kitchen
+	dunk = Sound("sound/splosh.wav")
+
+	//Bell in Foyer
+	bell = Sound("sound/handbell.wav")
+
+	//Book in Foyer
+	book = Sound("sound/book.wav")
+
+	//Keyboard in Foyer
+	keys = Sound("sound/keys.wav")
+
+	//Plant in Foyer
+	slurp = Sound("sound/slurp.wav")
+
+	//Doubledoor in Lounge
+	doubledooropen = Sound("sound/doubledoor_open.wav")
+	doubledoorclose = Sound("sound/doubledoor_close.wav")
+
+	//Scream of Caponier in Lounge
+	scream = Sound("sound/scream.wav")
+
+	//Eating of Caponier
+	eating = Sound("sound/eating.wav")
+
+	//Squirt of Tabasco in Lounge
+	tabascosquirt = Sound("sound/squirt_tabasco.wav")
+
+	//Squirt of Clue in Inventory
+	cluesquirt = Sound("sound/squirt_clue.wav")
+
+	//Put things together for Costume
+	puttogether = Sound("sound/puttogether.wav")
+
+	//Put cloth on
+	clothes = Sound("sound/rascheln.wav")
+
+	//Dump Fruits in Pot
+	metaldump = Sound("sound/metal_drop.wav")
+
+	// Metal clank when putting Pot on Hearth
+	metal = Sound("sound/metal_clank.wav")
+
+	// Metal clank when open the shut fridge
+	shutfridge = Sound("sound/shut_metaldoor.wav")
+
+	//Intro Door Open
+	introdoor = Sound("sound/intro_door.wav")	
+
+	//Intro Sound
+	introsteps = Sound("sound/intro_footsteps.wav")
+
+	//Intro Sound
+	introsong = Sound("sound/intro_song2.wav")	
+
+]
+
+Speak = [
+
+	//Samples for Intro speech
+	s01 = Sound("speech/s01_licht2.wav")	
+	s02 = Sound("speech/s02_schon_besser1.wav")
+	s03 = Sound("speech/s03_hallo_zak2.wav")
+	s04 = Sound("speech/s04_anfang4.wav")
+	s05 = Sound("speech/s05_hintergrund2.wav")
+	s06 = Sound("speech/s06_mrblack3.wav")
+	s07 = Sound("speech/s07_amulett2.wav")
+	s08 = Sound("speech/s08_demo4.wav")
+	s09 = Sound("speech/s09_danke3.wav")
+	s10 = Sound("speech/s10_regie.wav")
+	s11 = Sound("speech/s11_ok2.wav")
+
+]
+
+local sound
+foreach (sound in Sfx)
+{
+	sound.volume = 30
+}
+foreach (sound in Speak)
+{
+	sound.volume = 30
+}

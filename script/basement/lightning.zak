@@ -1,0 +1,22 @@
+Basement.Cable.ThreadFunc = function()
+{
+
+	while (true)
+	{
+		if (ego.room == Basement)
+		{
+			Basement.Cable.sprite =  Sprite("keller/blitz.sprite")
+			Sfx.electric.Play()		
+			Delay(6000)
+			Basement.Cable.sprite = null
+		}
+		else
+		{
+			Delay(6000)
+		}
+		
+	} //while(1)
+}
+
+
+Basement.Cable.thread = sys.startthread(Basement.Cable.ThreadFunc, Basement.Cable)

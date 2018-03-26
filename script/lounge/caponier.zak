@@ -1,0 +1,168 @@
+caponier = CreateActor()
+caponier.font = Font("std.font")
+caponier.font.r=255
+caponier.font.g=255
+caponier.font.b=0
+
+caponier.still_sprite = Sprite("caponier/still.sprite") // Beim Stehen
+caponier.talk_sprite = Sprite("caponier/talk.sprite") // Beim Reden
+
+caponier.name = "Gast"
+
+caponier.hotspot = Shape(-25, -190, 55, 130)       // x/y=-25/-190 da relativ zum fuss
+
+caponier.no_auto_scale = true
+caponier.speed = 155
+
+caponier.height = 243
+caponier.width = 74
+caponier.rdefault = "talkto"
+
+caponier.burning = false
+caponier.recognized = false
+
+caponier.EnterRoom(Lounge, 730, 350)
+
+event scumm lookat: caponier
+{
+	ego.WalkTo(Lounge.Plate)
+	ego.dir = 270
+	ego.Talk("Das muss Mr.Black sein.")
+}
+
+caponier.TalkToAsZak = function()
+{
+	Suspend()
+	ego.STalk("Hallo!")
+	Delay(500)
+
+	caponier.STalk("Ja ?")
+
+	ans=0
+	while (ans != 3)
+	{
+
+		if (not caponier.recognized) Talker.Add("Kennen sie einen Mister Black ?")
+		else Talker.Add("Könnte ich mir das Amulett ansehen?")
+		Talker.Add("Schmeckt ihnen das Essen ?")
+		Talker.Add("Schöne Aussicht, oder ?")
+		Talker.Add("Auf wiedersehen...")
+
+		ans = Talker.Answer()
+		ego.STalk(Talker.Text())
+
+		if (ans == 0)
+		{
+			if (caponier.recognized)
+			{
+				caponier.STalk("Nein, können sie nicht!")
+				caponier.STalk("Außerdem habe ich es persönlich im Hotelsafe eingeschlossen...")
+				caponier.STalk("...und irgendwie keine Lust,")
+				caponier.STalk("das Amulett jedem dahergelaufenen Naseweis zu zeigen.")
+			}
+			else
+			{
+				caponier.STalk("Ja, das bin ich.")
+				Delay(200)
+				ego.STalk("Oh ich habe gehört, daß sie ein wertvolles Amulett gefunden haben.")
+				Delay(200)
+				caponier.STalk("Ja, auf einer meiner letzten Expeditionen in die Marskanäle.")
+				caponier.recognized=true
+			}
+		}
+
+		if (ans == 1)
+		{
+			caponier.STalk("Naja, viel zu lasch!")
+			caponier.STalk("Wenn der Koch hier wäre, würde ich ihm etwas erzählen.")
+		}
+
+		if (ans == 2)
+		{
+			caponier.STalk("Nein, nicht wirklich, ich finde den Mars kahl und öde!")
+		}
+	
+		if (ans == 3)
+		{
+			caponier.STalk("Na dann - Auf Wiedersehen.")
+		}
+	}
+
+	Resume()
+}
+
+caponier.TalkToAsKoch = function()
+{
+	Suspend()
+	ego.STalk("Ist mit dem Essen alles in Ordnung?")
+	Delay(500)
+
+	caponier.STalk("Nein, das Essen ist viel zu lasch gewürzt !")
+	Delay(500)
+
+	if (ego.HasBagItem(Inv.Tabasco))
+	{
+	Talker.Add("Oh, darf ich nachwürzen ?")
+	}
+	else
+	{
+	Talker.Add("Ich hole sofort etwas zum Würzen.")
+	}
+
+	Talker.Add("Ich schau mal, was sich machen läßt.")
+
+	ans = Talker.Answer()
+	ego.STalk(Talker.Text())
+
+	if (ans == 0)
+	{
+		caponier.STalk("Ich bitte darum.")
+		ego.wuerzen=true
+	}
+
+	if (ans == 1)
+	{
+		caponier.STalk("Das ist das Mindeste, daß ich von ihnen erwarte!")
+	}
+
+	Resume()
+}
+
+event scumm talkto: caponier 
+{
+	if (caponier.burning)
+	{
+		ego.Talk("Nein, ich laß ihn lieber in Ruhe.")
+	}
+	else
+	{
+		ego.SWalkToObj(Lounge.Plate)	
+		if (ego.wearcostume)
+		{
+			caponier.TalkToAsKoch()
+		}
+		else
+		{
+			caponier.TalkToAsZak()
+		}
+	}
+	
+}
+
+caponier.SpiceReaction = function()
+{
+		Suspend()
+		Sfx.tabascosquirt.Play()
+		ego.STalk("Bitte kosten sie.")
+		Delay(500)
+		caponier.STalk("Hmm - ah schaaaarf.")
+		Sfx.scream.Play()
+		Delay(200)
+	        caponier.still_sprite = Sprite("caponier/still2.sprite")
+		caponier.burning = true
+		Delay(1000)
+		ego.SWalkTo(605,376)
+		ego.dir = 270
+		ego.STalk("Ooops, war wohl doch etwas scharf.")
+		Resume()
+}

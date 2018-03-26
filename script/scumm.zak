@@ -1,0 +1,483 @@
+
+Scummbar = table
+[
+	// Dimensions of Scumm bar
+	x = 0
+	y = 384
+	width = 640
+	height = 96
+
+	// The scumm bar background sprite
+	background = Sprite("scummbar/backgr.png")
+
+	// Font to use, Text position
+	font = Font("std.font")
+	font_x = 320
+	font_y = 370
+	
+	// Available Scumm-Commands
+	commands = array
+	[
+
+		[ // Give command
+			text = "Gib"
+			infix = "an"
+			argc = 2
+			scumm = "giveto"
+
+			x = 5 y = 64
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_give.png")
+			asprite = Sprite("scummbar/h_give.png")
+		],
+
+		[ // Use command
+			text = "Benutze"
+			infix = "mit"
+			argc = 2
+			scumm = "use"
+			
+			x = 179, y = 6
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_use.png")
+			asprite = Sprite("scummbar/h_use.png")
+		],
+
+		[ // open command
+			text = "Öffne"
+			argc = 1
+			scumm = "open"
+
+			x = 5, y = 6
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_open.png")
+			asprite = Sprite("scummbar/h_open.png")
+		],
+
+
+		[ // look at command
+			text = "Schau an"
+			argc = 1
+			scumm = "lookat"
+
+			x = 92, y = 6
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_look.png")
+			asprite = Sprite("scummbar/h_look.png")
+		],
+
+		[ // push command
+			text = "Drücke"
+			argc = 1
+			scumm = "push"
+
+			x = 179, y = 35
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_push.png")
+			asprite = Sprite("scummbar/h_push.png")
+		],
+
+		[ // close command
+			text = "Schließe"
+			argc = 1
+			scumm = "close"
+
+			x = 5, y = 35
+			hotspot = Shape(0, 0, 82, 23)
+			sprite = Sprite("scummbar/d_close.png")
+			asprite = Sprite("scummbar/h_close.png")
+
+		],
+
+
+		[ // talk to command
+			text = "Rede mit"
+			argc = 1
+			scumm = "talkto"
+
+			x = 92, y = 35
+			hotspot = Shape(0, 0, 82, 23)
+			sprite = Sprite("scummbar/d_talk.png")
+			asprite = Sprite("scummbar/h_talk.png")
+		],
+
+		[ // pickup command
+			text = "Nimm"
+			argc = 1
+			scumm = "pickup"
+
+			x = 92, y = 64
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_pickup.png")
+			asprite = Sprite("scummbar/h_pickup.png")
+		],
+
+		[ // pull command
+			text = "Zieh"
+			argc = 1
+			scumm = "pull"
+
+			x = 179, y = 64
+			hotspot = Shape(0, 0, 82, 23)
+
+			sprite = Sprite("scummbar/d_pull.png")
+			asprite = Sprite("scummbar/h_pull.png")
+		],
+	]
+
+	// Definition for scroll buttons
+	scroll_buttons = array
+	[
+		[	// Row Up
+			x = 282, y = 5
+			amount = -6
+			hotspot = Shape(0, 0, 28, 29)
+			sprite = Sprite("scummbar/d_up.png")
+			asprite = Sprite("scummbar/h_up.png")
+		],
+
+		[	// Row Down
+			x = 284, y = 57
+			amount = 6
+			hotspot = Shape(0, 0, 24, 29)
+			sprite = Sprite("scummbar/d_down.png")
+			asprite = Sprite("scummbar/h_down.png")
+		],
+	]
+
+	// Default command, applied to object or x/y coordinate
+	default = [
+		text = "Gehe zu"
+		scumm = "walkto"
+	]
+
+	// Slots for inventory items
+	slots = array [
+		[ /* Row 1, Col 1 */ x = 329, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 1, Col 2 */ x = 378, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 1, Col 3 */ x = 430, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 1, Col 4 */ x = 481, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 1, Col 5 */ x = 533, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 1, Col 6 */ x = 584, y =  5, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 1 */ x = 329, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 2 */ x = 378, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 3 */ x = 430, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 4 */ x = 481, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 5 */ x = 533, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+		[ /* Row 2, Col 6 */ x = 584, y = 48, hotspot = Shape(0, 0, 44, 42) ],
+	]
+
+	Draw = function()
+	{
+		local X = $x
+		local Y = $y
+
+		// 0. Draw scumm bar background sprite
+		if ($background)
+		{
+			$background.Draw(X, Y)
+		}
+
+		// I. Draw SCUMM command buttons
+		local cmd
+		foreach (cmd in $commands)
+		{
+			local s = cmd.sprite
+			if (($_cmd == cmd) or ($_mouse_cmd == cmd) or ($_rmouse_cmd == cmd)) s = cmd.asprite
+			s.Draw(X + cmd.x, Y + cmd.y)
+		}
+
+		// III. Draw up/down buttons
+		local scroll_button
+		foreach (scroll_button in $scroll_buttons)
+		{
+			local s = scroll_button.sprite
+			if (scroll_button == $_mouse_scrollb) s = scroll_button.asprite
+			s.Draw(X + scroll_button.x, Y + scroll_button.y)
+		}
+
+		// IV. Draw inventory items
+		local i = $_scroll_offset
+		local slot
+		foreach (slot in $slots)
+		{
+			local bagitem = ego.bag[i]
+			if (bagitem) if (bagitem.sprite)
+			{
+				bagitem.sprite.Draw(X + slot.x, Y + slot.y)
+			}
+			i = i + 1
+		}
+
+		// III. Draw SCUMM bar text
+		$font.PrintCenter($font_x, $font_y, $_text)
+	}
+
+	Click = function(x, y, room_x, room_y)
+	{
+		// over scrollbutton?
+		local scrbut = $_get_scrollbutton_at(x, y)
+		if (scrbut)
+		{
+			$_clicked_scrollbutton(scrbut)
+			return()
+		}
+
+		// over command button?
+		local cmd	
+		cmd = $_get_command_at(x-$x, y-$y)
+		if (cmd)
+		{
+			$_clicked_command(cmd)
+			return()
+		}
+
+		// over item/actor?
+		local obj = $_get_object_at(x, y, room_x, room_y)
+		if (obj) 
+		{
+			$_clicked_object(obj)
+			return()
+		}
+
+		// default x/y command
+		if (not obj and $_state == 0 and room_x >= 0 and room_y >= 0)
+		{
+			local room = Camera.GetRoom()
+			local correct_y = room.path.FindVertical(room_x, room_y, room.height)
+			if (correct_y)
+			{
+				local obj = room.ObjectAt(room_x, correct_y)
+				if (not obj)
+					SignalEvent($default.scumm, room_x, correct_y)
+				else
+					SignalEvent($default.scumm, obj)
+			}
+		}
+	}
+
+	Move = function(x, y, room_x, room_y)
+	{
+		$_mouse_cmd     = $_get_command_at(x - $x, y - $y)
+		$_rmouse_cmd	= null
+		$_mouse_obj     = $_get_object_at(x, y, room_x, room_y)
+		$_mouse_scrollb = $_get_scrollbutton_at(x, y)
+		$_update_text()
+	
+		//Highlight Rightclick option
+		if ($_mouse_obj and not $_cmd){
+
+			// Set deault to "lookat" if there is no rdefault defined
+			if (not $_mouse_obj.rdefault) $_mouse_obj.rdefault="lookat"
+
+			local cmd
+			foreach (cmd in $commands)
+			{
+				if ($_mouse_obj.rdefault == cmd.scumm) $_rmouse_cmd = cmd
+			}
+		}
+
+	}
+
+	RDefault = function(x,y, room_x, room_y)
+	{
+		// Get Current Object
+		local obj
+		obj=$_get_object_at(x, y, room_x, room_y)
+
+		if (obj and not $_cmd)
+		{
+			//Get matching command from command array
+			local cmd
+			local found
+			found=false
+			foreach (cmd in $commands)
+			{
+				if (obj.rdefault == cmd.scumm) 
+				{
+					//update textline
+					$_mouse_cmd = cmd
+					$_mouse_obj = obj
+					$_update_text()
+
+					//trigger event
+					$_clicked_command(cmd)
+					$_clicked_object(obj)
+					found=true
+				}
+			}
+
+			// Check if we have switches in RDefault
+			if (found and obj.rdefault_sw)
+			{
+				local sw
+				sw=obj.rdefault
+				obj.rdefault=obj.rdefault_sw
+				obj.rdefault_sw=sw
+			}
+		}
+		
+	}
+
+	Abort = function()
+	{
+		$_state = 0
+		$_cmd = null
+		$_arg0 = null
+		$_update_text()
+	}
+
+	Suspend = function()
+	{
+		Suspend("scumm")
+	}
+
+	Resume = function()
+	{
+		Resume("scumm")
+	}
+
+	IsActive = function()
+	{
+		return(not IsSuspended("scumm"))
+	}
+
+	// Private members /////////////////////////////////////////////////////////////////
+
+	_state = 0 		// Scumm bar state
+	_text = "init"  	// Scumm bar text
+	_cmd = null  		// Currently selected command
+	_arg0 = null 		// Current first argument to selected command
+	_mouse_cmd = null 	// Command under mouse cursor
+	_rmouse_cmd = null	// Command for right mouse click
+	_mouse_obj = null 	// Room object under mouse cursor
+	_mouse_scrollb = null   // Scroll button under mouser cursor
+	_scroll_offset = 0      // Scroll offset
+
+	// Get command button at coordinate x, y (relative to scumm bar origin)
+	_get_command_at = function(x, y) // TODO: Make x,y global coordinates (now: relative to scummbar origin)
+	{
+		local cmd
+		foreach (cmd in $commands)
+		{
+			if (cmd.hotspot.Hit(x - cmd.x, y - cmd.y)) return(cmd)
+		}
+		return()
+	}
+
+	_get_scrollbutton_at = function(x, y)
+	{
+		local bar_x = x - $x, bar_y = y - $y // convert to local coordinates
+		local scrbut
+		foreach (scrbut in $scroll_buttons)
+		{
+			if (scrbut.hotspot.Hit(bar_x - scrbut.x, bar_y - scrbut.y)) return(scrbut)
+		}
+		return(null)
+	}
+
+	_get_object_at = function(x, y, room_x, room_y)
+	{
+		// I. Search in inventory
+		local slot
+		local bar_x = x - $x // convert to coordinates relative to
+		local bar_y = y - $y // scummbar origin at ($x, $y)
+		local idx = $_scroll_offset 
+		foreach (slot in $slots)
+		{
+			if (slot.hotspot.Hit(bar_x - slot.x, bar_y - slot.y)) // mouse over inventory slot?
+			{
+				return(ego.bag[idx]) // may also be null..
+			}
+			idx = idx + 1
+		}
+
+		// II. Search in Room
+		local room = Camera.GetRoom()
+		if (room) return(room.ObjectAt(room_x, room_y))
+
+		// III. Nothing found..
+		return(null)
+	}
+
+	// Update current Scumm bar text
+	_update_text = function()
+	{
+		if ($_state == 0) {
+			if ($_mouse_cmd) $_text = $_mouse_cmd.text
+			else $_text = self.default.text
+			if ($_mouse_obj) $_text = $_text.concat(" ").concat($_mouse_obj.name)
+		} else if ($_state == 1) {
+			$_text = $_cmd.text.concat(" ")
+			if ($_mouse_obj) $_text = $_text.concat($_mouse_obj.name)
+		} else if ($_state == 2) {
+			$_text = $_cmd.text.concat(" ").concat($_arg0.name).concat(" ").concat($_cmd.infix).concat(" ")
+			if ($_mouse_obj) $_text = $_text.concat($_mouse_obj.name)
+		} else {
+			$_text = "<error>"
+		}
+	}
+
+	_clicked_command = function(cmd)
+	{
+		$_state = 1
+		$_cmd = cmd
+		$_arg0 = null
+		$_update_text()
+	}
+
+	_clicked_object = function(obj)
+	{
+		local old_state = $_state
+
+		if ($_state == 0) {
+			SignalEvent($default.scumm, obj)
+			$_arg0 = null 
+			$_cmd = null
+			$_state = 0
+		} else if ($_state == 1) { 
+
+			// HACK: Allow "use"-Command to be an unary operation, if obj.usable is set
+			if (obj.usable and $_cmd.scumm == "use")
+			{
+				SignalEvent("use", obj)
+				$_state = 0
+				$_arg0 = null
+				$_cmd = null
+			} else
+			// HACK END
+
+			if ($_cmd.argc == 1) // unary op?
+			{
+				SignalEvent($_cmd.scumm, obj)
+				$_state = 0
+				$_arg0 = null
+				$_cmd = null
+			} else {
+				$_arg0 = obj
+				$_state = 2
+			}
+		} else if ($_state == 2) { 
+			SignalEvent($_cmd.scumm, $_arg0, obj)
+			$_state = 0
+			$_arg0 = null
+			$_cmd = null
+		} 
+
+		if (old_state != $_state) $_update_text()
+	}
+
+	_clicked_scrollbutton = function(scrbut)
+	{
+		$_scroll_offset = $_scroll_offset + scrbut.amount
+		if ($_scroll_offset < 0) $_scroll_offset = 0
+	}
+]
+
+

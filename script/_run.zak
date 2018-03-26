@@ -1,0 +1,17 @@
+
+Execute("script/tools.zak")
+Execute("script/scumm.zak")
+Execute("script/talker.zak")
+
+Execute("script/ego.zak")
+Execute("script/sounds.zak")
+Execute("script/main.zak")
+
+CameraSetScrollMode()
+CameraSetScrollSpeed(50, 100)
+CameraSetTarget(ego)
+
+EnterRoom(Basement, 300, 260)
+//WarpTo(250,320)
+
+//Intro.start_thread = sys.startthread(Intro.Start, Intro)

@@ -1,0 +1,211 @@
+Execute("script/foyer/portier.zak")
+Execute("script/foyer/plant.zak")
+
+event scumm pickup: Foyer.Bowl:obj
+{
+	WalkTo(obj)
+
+	Sfx.get.Play()
+	ego.AddBagItem(Inv.Nose)
+
+	Delay(500)
+
+	Talk("Ich nehme besser eine mit.")
+}
+
+event scumm push: Foyer.Bell:obj
+{
+	WalkTo(obj)
+	Sfx.bell.Play()
+	Talk("Palim Palim...")
+}
+
+
+event scumm walkto: Foyer.Downstairs:obj
+{
+	WalkTo(obj)
+	ego.EnterRoom(Basement, 25, 215)
+	Music.barjazz.mute = Music.barjazz.mute+32
+	ego.SWalkTo(120,320)
+
+}
+
+///////////////
+// Swingdoor //
+///////////////
+
+event scumm open: Foyer.Swingdoor:obj
+{
+	if (obj.open)
+	{
+		Talk("Diese Tür ist schon offen.")
+	}
+	else
+	{
+		WalkTo(obj)
+		Sfx.doubledooropen.Play()
+		obj.sprite = Sprite("foyer/tuer_lounge_auf.png")
+		obj.open = true
+		Music.barjazz.mute = 16
+	}
+}
+
+event scumm close: Foyer.Swingdoor:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		Sfx.doubledoorclose.Play()
+		obj.sprite = null
+		obj.open = false
+		Music.barjazz.mute = 32
+	}
+	else
+	{
+		Talk("Diese Tür ist schon geschlossen.")
+	}
+}
+
+event scumm walkto: Foyer.Swingdoor:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		ego.EnterRoom(Lounge, 70, 310)
+		ego.SWalkTo(100,310)
+		Music.barjazz.mute = 0
+	}
+	else
+	{
+		WalkTo(obj)
+	}
+
+}
+
+///////////////
+// Steeldoor //
+///////////////
+
+event scumm open: Foyer.Steeldoor:obj
+{
+	if (obj.open)
+	{
+		Talk("Diese Tür ist schon offen.")
+	}
+	else
+	{
+		WalkTo(obj)
+		if (portier.seeyou and not ego.wearcostume)
+		{
+
+			portier.Wait()
+
+			local old_state = portier.state
+			portier.state = 0
+
+			Delay(250)
+			portier.Stop()
+			portier.STalk("Diese Tür ist nur für Personal!")
+
+			portier.state = old_state
+
+			Delay(250)
+
+		} 
+		else 
+		{		
+			obj.sprite = Sprite("foyer/tuer_kueche_auf.png")
+			Sfx.metaldooropen.Play()
+			obj.open = true
+		}
+	}
+
+
+}
+
+event scumm close: Foyer.Steeldoor:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		obj.sprite = null
+		Sfx.metaldoorclose.Play()
+		obj.open = false
+	}
+	else
+	{
+		Talk("Diese Tür ist schon geschlossen.")
+	}
+
+}
+
+event scumm walkto: Foyer.Steeldoor:obj
+{
+	if (obj.open)
+	{
+		WalkTo(obj)
+		ego.EnterRoom(Kitchen, 410, 245)
+		ego.SWalkTo(410,260)
+		Music.barjazz.mute = Music.barjazz.mute+16
+	}
+	else
+	{
+		WalkTo(obj)
+	}
+}
+
+/////////////////
+// Other items //
+/////////////////
+
+event scumm lookat: Foyer.Guestbook:obj 
+{
+
+	WalkTo(obj)
+	Sfx.book.Play()
+	Talk("Das Gästebuch des Hotels - es scheint, das Mr. Black hier wohnt.")
+}
+
+event scumm lookat: Foyer.Keyholder:obj 
+{
+
+	WalkTo(obj)
+	Sfx.keys.Play()
+	Talk("Lauter bunte Schlüssel!")
+}
+
+event scumm lookat: Foyer.Stairs:obj
+{
+	//WalkTo(obj)
+	WalkTo(160,320)
+	ego.dir=270
+	Talk("Diese Treppe führt nach oben zu den Zimmern.")
+}
+
+event scumm lookat: Foyer.Downstairs:obj
+{
+	//WalkTo(obj)
+	WalkTo(170,310)
+	ego.dir=270
+	Talk("Da geht's runter in den Keller.")
+}
+
+event scumm walkto: Foyer.Stairs:obj
+{
+	WalkTo(obj)
+	WalkTo(140,300)
+	ego.dir=270
+	Talk("Lieber nicht - laut Programmierer ist der obere Teil des Hotels noch nicht fertig.")
+}
+
+event scumm talkto: portier 
+{
+	if (ego.wearcostume)
+	{
+		portier.TalkToAsKoch()
+	}
+	else
+	{
+		portier.TalkTo()
+	}
+}
